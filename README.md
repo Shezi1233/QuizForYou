@@ -165,6 +165,21 @@ Ctrl+F karo `Correct Answer!` aur `Wrong Answer!` — dono jagah replace ho jaye
 
 ---
 
+## 🔀 Answer Distribution (Important!)
+
+Part 2 ke 100 questions mein **answers properly shuffle kiye gaye hain** taake students pattern se correct answer na guess kar saken.
+
+| Letter | Count |
+|--------|-------|
+| **A** | 25 |
+| **B** | 25 |
+| **C** | 25 |
+| **D** | 25 |
+
+Har option ka **exact 25** correct answers hain — bilkul balanced! ✅
+
+---
+
 ## ⚡ Quick Tips
 
 - Code **bilkul mat todo** — sirf upar bataye gaye parts change karo
