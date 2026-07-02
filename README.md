@@ -1,8 +1,17 @@
 # 🤖 AI Agent Factory — MCQ Quiz Website
 
-## 📝 Ye Website Kya Hai?
+## 📝 Website Kya Hai?
 
-Yeh ek **MCQ Quiz website** hai jo **AI Agent Factory** course ke 31 questions par based hai. Students browser mein kholein aur MCQ solve karein — result final mein aata hai.
+Yeh ek **MCQ Quiz website** hai jisme **2 Parts** hain:
+
+| Part | Questions | Time |
+|------|-----------|------|
+| **Part 1** 📘 | 31 MCQs | 15 Minutes |
+| **Part 2** 📕 | 100 MCQs | 45 Minutes |
+
+Students browser mein kholenge → **Home Screen** par dono parts dikhenge → jis part ka karna hai us par click karein → MCQ solve karein → result final mein aata hai.
+
+---
 
 ## 🚀 Deploy Kaise Karein?
 
@@ -16,33 +25,63 @@ Yeh ek **MCQ Quiz website** hai jo **AI Agent Factory** course ke 31 questions p
 2. Drag & drop `index.html`
 3. File ka naam **`index.html`** hona chahiye
 
-> ⚠️ **File name IMPORTANT hai:** Agar Vercel / Netlify par deploy karna hai to file ka naam **`index.html`** rakhna zaroori hai. `mcq-quiz.html` rakhoge to 404 error aayega.
+> ⚠️ **File name IMPORTANT hai:** File ka naam **`index.html`** rakhna zaroori hai. Agar koi aur naam rakha to 404 error aayega.
+
+---
+
+## 🧠 Website Kaise Kaam Karti Hai?
+
+```
+🏠 HOME SCREEN
+   ├── 📘 Part 1 (31 Qs — 15 min)
+   └── 📕 Part 2 (100 Qs — 45 min)
+           │
+           ▼
+   📝 QUIZ SCREEN
+   ├── 1 option click → turant result
+   │   ✅ Correct = green
+   │   ❌ Wrong = red + correct answer green
+   ├── Next button (No Previous)
+   └── Timer countdown
+           │
+           ▼
+   🏁 RESULTS SCREEN
+   ├── Score %, Correct/Wrong/Skipped
+   ├── 🔄 Retry same part
+   └── 🏠 Back to Home (doosra part select karne ke liye)
+```
 
 ---
 
 ## 🔧 Website Mein Change Kaise Karein?
 
-### 🟢 Simple Changes (Options, Questions, Timer, Colors)
+### 🟢 Questions / Options Badalna (Part 1)
 
-#### Questions / Options badalna
 `index.html` file ko **Notepad ya VS Code** mein kholo. **Ctrl+F** karo aur yeh dhundho:
 
 ```
-const Q = [
+const Q1 = [
 ```
 
-Yahan se saare questions hain. Har question kuch yun dikhta hai:
+Yahan Part 1 ke 31 questions hain. Har question kuch yun dikhta hai:
 
 ```javascript
-{ id:1, mod:"Module 1 — Foundations", top:"Human Oversight",
-  txt:"A developer built an AI agent to review legal contracts...",
+{ id:1, txt:"A developer built an AI agent...",
   opts:["Option A","Option B","Option C","Option D"], ans:2 },
 ```
 
+### 🟢 Questions / Options Badalna (Part 2)
+
+Ctrl+F karo:
+
+```
+const Q2 = [
+```
+
+Yahan Part 2 ke 100 questions hain.
+
 **Samjhao:**
 - `id` → question number
-- `mod` → module name
-- `top` → topic name
 - `txt` → question text
 - `opts` → 4 options (["A","B","C","D"])
 - `ans` → correct answer index (**0 = A, 1 = B, 2 = C, 3 = D**)
@@ -51,24 +90,33 @@ Yahan se saare questions hain. Har question kuch yun dikhta hai:
 
 ---
 
-#### Timer ka time badalna (15 minute)
-Ctrl+F karo `timeLeft = 900`
+### 🟢 Timer ka time badalna
 
-`900` seconds hai (15 × 60 = 900). Change karo jo time chahiye:
+Ctrl+F karo `timeLeft =`
+
+| Code | Kya hai |
+|------|---------|
+| `timeLeft = 900` | ⏱ Part 1 — 15 minutes (900 sec) |
+| `timeLeft = 2700` | ⏱ Part 2 — 45 minutes (2700 sec) |
+
+Seconds mein value change karo:
 - 10 min → `600`
 - 20 min → `1200`
 - 30 min → `1800`
+- 45 min → `2700`
+- 60 min → `3600`
 
 ---
 
-#### Colors / Theme change karna
+### 🟢 Colors / Theme change karna
+
 Background color badalni hai? Ctrl+F karo `background: linear-gradient`
 
 ```
 background: linear-gradient(135deg, #e8eaff 0%, #f5f3ff 100%);
 ```
 
-Yeh primary background hai. Isko apni pasand ke color se replace karo.
+Yeh primary background hai. Ise apni pasand ke color se replace karo.
 - Purple theme → `#e8eaff` aur `#f5f3ff` ki jagah `#f3e8ff` aur `#fff5f5`
 - Green theme → `#ecfdf5` aur `#f0fdf4`
 
@@ -76,30 +124,33 @@ Primary purple color (`#6c63ff`) ko bhi change kar sakte ho — poori file mein 
 
 ---
 
-### 🟡 Moderate Changes
+### 🟢 Part 3 Add Karna (Aur MCQs ho to)
 
-#### Questions ki total count change karni hai?
-1. Naye question add karo `const Q = [...]` array mein
-2. Ctrl+F karo `const TOTAL = Q.length;` — yeh automatically count lega
-3. Koi number change karne ki zaroorat nahi
-
-#### Title change karna hai?
-Ctrl+F karo `AI Agent Factory` aur replace karo naye naam se.
-
-#### "Correct Answer!" / "Wrong Answer!" text change karna hai?
-Ctrl+F karo: `Correct Answer!` aur `Wrong Answer!` — dono jagah replace ho jayenge.
+1. `const Q3 = [...]` array add karo (Part 1 aur Part 2 ke questions array ke baad)
+2. Home screen mein ek naya card banao `id="goPart3"` ke saath
+3. JavaScript mein listener add karo `document.getElementById('goPart3').addEventListener(...)`
+4. Timer set karo: `timeLeft = 2700` ya jo time chahiye
 
 ---
 
-### 🔴 Advanced Changes (JS wale)
+### 🟢 Title change karna hai?
 
-**Explanation add karni hai?** Currently feedback bas "Correct/Wrong Answer" show karta hai. Agar explanation bhi dikhana hai to:
+Ctrl+F karo `AI Agent Factory` aur replace karo naye naam se.
 
-1. `const EXP = {...}` wala object add karo (jaisa pehle the)
+### 🟢 "Correct Answer!" / "Wrong Answer!" text change karna hai?
+
+Ctrl+F karo `Correct Answer!` aur `Wrong Answer!` — dono jagah replace ho jayenge.
+
+---
+
+### 🔴 Advanced Changes
+
+**Explanation add karni hai?** Feedback currently bas "Correct/Wrong Answer" show karta hai. Agar explanation bhi dikhana hai to:
+1. `const EXP = {...}` wala object banao
 2. `handleAnswer` function mein `EXP[q.id]` use karo
 3. `fb.innerHTML` mein explanation bhi append karo
 
-**Previous button wapas chahiye?** `nav` div mein ek Previous button add karo aur usme click handler lagao.
+**Previous button wapas chahiye?** Front-end mein button add karo aur JS mein click handler lagao.
 
 ---
 
@@ -107,8 +158,9 @@ Ctrl+F karo: `Correct Answer!` aur `Wrong Answer!` — dono jagah replace ho jay
 
 | File | Kya Hai |
 |------|---------|
-| `index.html` | ✅ Main website file (yhi deploy hoti hai) |
-| `AI_Agent_Factory_MCQs_Explained.md` | 📘 Explanations notes |
+| `index.html` | ✅ **Main file** — Part 1 + Part 2 dono isi mein hain (yhi deploy hoti hai) |
+| `AI_Agent_Factory_MCQs_Explained.md` | 📘 Explanations notes (source) |
+| `100 MCQS.md` | 📕 Part 2 ke questions (source) |
 | `README.md` | 📖 Yeh file |
 
 ---
