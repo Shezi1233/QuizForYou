@@ -95,16 +95,6 @@
             color: #1a1a2e;
             line-height: 1.5;
         }
-        .q-topic {
-            display: inline-block;
-            font-size: 11px;
-            background: #eeecff;
-            color: #6c63ff;
-            padding: 3px 12px;
-            border-radius: 20px;
-            margin-top: 8px;
-            font-weight: 500;
-        }
         .opts {
             display: flex;
             flex-direction: column;
@@ -282,7 +272,6 @@
         <div class="q-area">
             <div class="q-module" id="qModule">MODULE 1</div>
             <div class="q-text" id="qText">Loading questions...</div>
-            <div class="q-topic" id="qTopic">Topic</div>
         </div>
 
         <div class="opts" id="opts"></div>
@@ -460,7 +449,6 @@
     const progressFill = document.getElementById('progressFill');
     const qModule = document.getElementById('qModule');
     const qText = document.getElementById('qText');
-    const qTopic = document.getElementById('qTopic');
     const opts = document.getElementById('opts');
     const fb = document.getElementById('fb');
     const nextBtn = document.getElementById('nextBtn');
@@ -500,7 +488,6 @@
         const q = Q[i];
         qModule.textContent = q.mod;
         qText.textContent = 'Q' + q.id + '. ' + q.txt;
-        qTopic.textContent = q.top;
         counter.textContent = (i+1) + ' / ' + TOTAL;
         progressFill.style.width = ((i+1)/TOTAL*100) + '%';
 
