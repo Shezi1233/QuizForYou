@@ -33,10 +33,14 @@ Students browser mein kholenge → **Home Screen** par teeno parts dikhenge → 
 ## 🧠 Website Kaise Kaam Karti Hai?
 
 ```
+👥 ONLINE COUNTER (top par har screen pe)
+   ├── Real-time: kitne log online hain
+   └── Firebase Realtime Database se update
+
 🏠 HOME SCREEN
    ├── 📘 Part 1 (31 Qs — 15 min)
    ├── 📕 Part 2 (100 Qs — 45 min)
-   └── 📗 Part 3 (50 Qs — 25 min)
+   └── 📗 Part 3 (50 Qs — 25 min) 🔴 Hard
            │
            ▼
    📝 QUIZ SCREEN
@@ -157,6 +161,18 @@ Ctrl+F karo `Correct Answer!` aur `Wrong Answer!` — dono jagah replace ho jaye
 
 ### 🔴 Advanced Changes
 
+**👥 Online Counter (Firebase):** Website ke top par har screen pe **"X online — preparing"** dikhta hai — real-time!
+
+✅ **Already setup hai** — Firebase config keys daal di gayi hain. Kaam karta rahega.
+
+Agar apna khud ka Firebase project banana ho to:
+1. [console.firebase.google.com](https://console.firebase.google.com) par jao
+2. **Create a project** → naam do (Google Analytics off kar do)
+3. **Realtime Database** → **Create Database** → **Start in test mode**
+4. **Project Settings** (⚙️) → **General** → **Your apps** → **Web app** (`</>` icon)
+5. Config copy karo aur `index.html` mein `FIREBASE_CONFIG` object mein paste karo
+6. Deploy karo — ab online counter kaam karega!
+
 **Explanation add karni hai?** Feedback currently bas "Correct/Wrong Answer" show karta hai. Agar explanation bhi dikhana hai to:
 1. `const EXP = {...}` wala object banao
 2. `handleAnswer` function mein `EXP[q.id]` use karo
@@ -170,7 +186,7 @@ Ctrl+F karo `Correct Answer!` aur `Wrong Answer!` — dono jagah replace ho jaye
 
 | File | Kya Hai |
 |------|---------|
-| `index.html` | ✅ **Main file** — Part 1 + Part 2 + Part 3 teeno isi mein hain (yhi deploy hoti hai) |
+| `index.html` | ✅ **Main file** — Part 1 + 2 + 3 + Online Counter, sab isi mein hai (yhi deploy hoti hai) |
 | `AI_Agent_Factory_MCQs_Explained.md` | 📘 Explanations notes (source) |
 | `100 MCQS.md` | 📕 Part 2 ke questions (source) |
 | `richtext_converted_to_markdown.md` | 📗 Part 3 ke questions (source) |

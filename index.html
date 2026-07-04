@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>AI Agent Factory — MCQ Quiz</title>
+    <!-- Firebase SDK (required for online counter) -->
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -251,6 +254,43 @@
             font-size: 13px;
             color: #aaa;
         }
+        .online-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 7px 18px;
+            background: #f0fdf4;
+            border-bottom: 1px solid #86efac;
+            border-radius: 24px 24px 0 0;
+            font-size: 13px;
+            color: #166534;
+            font-weight: 500;
+            text-align: center;
+            margin: -28px -32px 18px -32px;
+        }
+        .online-badge .dot {
+            width: 9px; height: 9px;
+            border-radius: 50%;
+            background: #22c55e;
+            display: inline-block;
+            animation: pulse-dot 2s infinite;
+            flex-shrink: 0;
+        }
+        .online-badge .dot.offline { background: #9ca3af; animation: none; }
+        .online-badge .dot.checking { background: #f59e0b; animation: pulse-dot 1s infinite; }
+        .online-badge .num { font-weight: 700; font-size: 15px; }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        @media (max-width: 600px) {
+            .online-badge {
+                margin: -16px -16px 14px -16px;
+                padding: 6px 14px;
+                font-size: 12px;
+            }
+        }
 
         .rs { text-align: center; padding: 10px 0; }
         .rs h2 { font-size: 28px; color: #1a1a2e; margin-bottom: 4px; }
@@ -303,6 +343,12 @@
 </head>
 <body>
 <div class="quiz-container" id="app">
+
+    <!-- ONLINE COUNTER — top of every screen -->
+    <div class="online-badge" id="onlineBadge">
+        <span class="dot checking" id="onlineDot"></span>
+        <span>👥 <span class="num" id="onlineCount">0</span> online — preparing</span>
+    </div>
 
     <!-- HOME SCREEN -->
     <div class="screen on" id="homeScreen">
@@ -385,6 +431,74 @@
 
 <script>
 (function(){
+    // ===================== FIREBASE CONFIG — Online Counter =====================
+    // 🔥 Isse setup karne ke liye:
+    //    1. https://console.firebase.google.com par jao
+    //    2. "Create a project" karo (Google Analytics off kar do)
+    //    3. Realtime Database → Create Database → Start in test mode
+    //    4. Project Settings → General → Your apps → Web app (</>) → Copy config
+    //    5. Neeche wali config badlo apni apni keys se
+    const FIREBASE_CONFIG = {
+        apiKey: "AIzaSyBi0zt-nsQaOY4k3Rku_dbeodFKphyHs7E",
+        authDomain: "mcqs-8a5d0.firebaseapp.com",
+        databaseURL: "https://mcqs-8a5d0-default-rtdb.firebaseio.com",
+        projectId: "mcqs-8a5d0",
+        storageBucket: "mcqs-8a5d0.firebasestorage.app",
+        messagingSenderId: "474459617462",
+        appId: "1:474459617462:web:39f0df60b16239bc750e17"
+    };
+
+    console.log('🔥 Firebase config keys available:', FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY");
+
+    // Online counter setup — Firebase ke connect hone ke baad update hoga
+    function initFirebaseCounter() {
+        if (typeof firebase === 'undefined') {
+            console.warn('⏳ Firebase SDK not ready, retrying...');
+            setTimeout(initFirebaseCounter, 500);
+            return;
+        }
+        try {
+            console.log('🔥 Initializing Firebase...');
+            firebase.initializeApp(FIREBASE_CONFIG);
+            const db = firebase.database();
+            const presenceRef = db.ref('online_users');
+
+            // Listen for connection state
+            db.ref('.info/connected').on('value', (snap) => {
+                if (snap.val() === true) {
+                    console.log('🔥 Firebase connected!');
+                    const myRef = presenceRef.push();
+                    myRef.onDisconnect().remove();
+                    myRef.set({ online: true, timestamp: firebase.database.ServerValue.TIMESTAMP });
+                }
+            });
+
+            // Count online users in real-time
+            presenceRef.on('value', (snap) => {
+                const count = snap.numChildren();
+                const badge = document.getElementById('onlineBadge');
+                const countEl = document.getElementById('onlineCount');
+                const dot = document.getElementById('onlineDot');
+                if (badge) {
+                    countEl.textContent = count;
+                    dot.className = 'dot' + (count === 0 ? ' offline' : '');
+                    console.log('🔥 Online count:', count);
+                }
+            });
+
+            console.log('✅ Firebase online counter is LIVE!');
+        } catch(e) {
+            console.warn('⚠️ Firebase error:', e.message);
+        }
+    }
+
+    // Start Firebase when SDKs are loaded
+    if (document.readyState === 'complete') {
+        initFirebaseCounter();
+    } else {
+        window.addEventListener('load', initFirebaseCounter);
+    }
+
     // ===================== PART 1 QUESTIONS (31) =====================
     const Q1 = [
         { id:1, txt:"A developer built an AI agent to review legal contracts, but no human checked the output before sending it to the client. A clause was misclassified, causing losses. What went wrong?", opts:["The model was not good","The rules were incorrect","There was no Human Oversight","The architecture was poor"], ans:2 },
