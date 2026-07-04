@@ -2,14 +2,15 @@
 
 ## 📝 Website Kya Hai?
 
-Yeh ek **MCQ Quiz website** hai jisme **2 Parts** hain:
+Yeh ek **MCQ Quiz website** hai jisme **3 Parts** hain:
 
 | Part | Questions | Time |
 |------|-----------|------|
 | **Part 1** 📘 | 31 MCQs | 15 Minutes |
 | **Part 2** 📕 | 100 MCQs | 45 Minutes |
+| **Part 3** 📗 🔴 Hard | 50 MCQs | 25 Minutes |
 
-Students browser mein kholenge → **Home Screen** par dono parts dikhenge → jis part ka karna hai us par click karein → MCQ solve karein → result final mein aata hai.
+Students browser mein kholenge → **Home Screen** par teeno parts dikhenge → jis part ka karna hai us par click karein → MCQ solve karein → result final mein aata hai.
 
 ---
 
@@ -34,7 +35,8 @@ Students browser mein kholenge → **Home Screen** par dono parts dikhenge → j
 ```
 🏠 HOME SCREEN
    ├── 📘 Part 1 (31 Qs — 15 min)
-   └── 📕 Part 2 (100 Qs — 45 min)
+   ├── 📕 Part 2 (100 Qs — 45 min)
+   └── 📗 Part 3 (50 Qs — 25 min)
            │
            ▼
    📝 QUIZ SCREEN
@@ -80,6 +82,16 @@ const Q2 = [
 
 Yahan Part 2 ke 100 questions hain.
 
+### 🟢 Questions / Options Badalna (Part 3)
+
+Ctrl+F karo:
+
+```
+const Q3 = [
+```
+
+Yahan Part 3 ke 50 questions hain.
+
 **Samjhao:**
 - `id` → question number
 - `txt` → question text
@@ -98,6 +110,7 @@ Ctrl+F karo `timeLeft =`
 |------|---------|
 | `timeLeft = 900` | ⏱ Part 1 — 15 minutes (900 sec) |
 | `timeLeft = 2700` | ⏱ Part 2 — 45 minutes (2700 sec) |
+| `timeLeft = 1500` | ⏱ Part 3 — 25 minutes (1500 sec) |
 
 Seconds mein value change karo:
 - 10 min → `600`
@@ -126,10 +139,9 @@ Primary purple color (`#6c63ff`) ko bhi change kar sakte ho — poori file mein 
 
 ### 🟢 Part 3 Add Karna (Aur MCQs ho to)
 
-1. `const Q3 = [...]` array add karo (Part 1 aur Part 2 ke questions array ke baad)
-2. Home screen mein ek naya card banao `id="goPart3"` ke saath
-3. JavaScript mein listener add karo `document.getElementById('goPart3').addEventListener(...)`
-4. Timer set karo: `timeLeft = 2700` ya jo time chahiye
+✅ **Part 3 already added hai** — 50 MCQs with 25 minutes.
+
+Aur zyada MCQs add karne hain to `const Q3 = [...]` array mein naye objects add karo.
 
 ---
 
@@ -158,17 +170,19 @@ Ctrl+F karo `Correct Answer!` aur `Wrong Answer!` — dono jagah replace ho jaye
 
 | File | Kya Hai |
 |------|---------|
-| `index.html` | ✅ **Main file** — Part 1 + Part 2 dono isi mein hain (yhi deploy hoti hai) |
+| `index.html` | ✅ **Main file** — Part 1 + Part 2 + Part 3 teeno isi mein hain (yhi deploy hoti hai) |
 | `AI_Agent_Factory_MCQs_Explained.md` | 📘 Explanations notes (source) |
 | `100 MCQS.md` | 📕 Part 2 ke questions (source) |
+| `richtext_converted_to_markdown.md` | 📗 Part 3 ke questions (source) |
 | `README.md` | 📖 Yeh file |
 
 ---
 
 ## 🔀 Answer Distribution (Important!)
 
-Part 2 ke 100 questions mein **answers properly shuffle kiye gaye hain** taake students pattern se correct answer na guess kar saken.
+Part 2 aur Part 3 ke questions mein **answers properly shuffle kiye gaye hain** taake students pattern se correct answer na guess kar saken.
 
+### Part 2
 | Letter | Count |
 |--------|-------|
 | **A** | 25 |
@@ -177,6 +191,16 @@ Part 2 ke 100 questions mein **answers properly shuffle kiye gaye hain** taake s
 | **D** | 25 |
 
 Har option ka **exact 25** correct answers hain — bilkul balanced! ✅
+
+### Part 3
+| Letter | Count |
+|--------|-------|
+| **A** | 13 |
+| **B** | 12 |
+| **C** | 13 |
+| **D** | 12 |
+
+Options ki length bhi equal rakhi gayi hai taake length dekh kar answer guess na kar saken. ✅
 
 ---
 
